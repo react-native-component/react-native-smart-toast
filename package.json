@@ -1,5 +1,5 @@
 {
-  "name": "react-native-smart-toast",
+  "name": "@react-native-component/react-native-smart-toast",
   "version": "1.0.0",
   "description": "A android like toast for react-native apps",
   "main": "Toast.js",
