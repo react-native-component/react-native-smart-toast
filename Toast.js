@@ -47,6 +47,9 @@ class Toast extends Component {
         spacing: 30,
         position: gravity.bottom,
         duration: 3000,
+        animatedDuration: 510,
+        delay: 0,
+        marginTop: 0,
     }
 
     static propTypes = {
@@ -55,6 +58,9 @@ class Toast extends Component {
         spacing: PropTypes.number,
         position: PropTypes.oneOf([gravity.top, gravity.bottom, gravity.center,]),
         duration: PropTypes.number,
+        animatedDuration: PropTypes.number,
+        delay: PropTypes.number,
+        marginTop: PropTypes.number,
     }
 
     constructor(props) {
@@ -65,6 +71,8 @@ class Toast extends Component {
             visible: false,
             opacity: new Animated.Value(0),
         }
+        this._toastWidth = null
+        this._toastHeight = null
         this._toastShowAnimation = null
         this._toastHideAnimation = null
         this._toastAnimationToggle = null
@@ -87,23 +95,28 @@ class Toast extends Component {
                 <Animated.View
                     ref={ component => this._container = component }
                     onLayout={this._onToastLayout}
-                    style={[styles.container, this.props.style, {opacity:this.state.opacity}]}>
+                    style={[styles.container, this.props.style, {opacity:this.state.opacity, }]}>
                     {children}
                 </Animated.View> : null
         )
     }
 
-    show({position = this.state.position, duration = 510, easing = Easing.linear, delay = 0, animationEnd,}
-        = {position: this.state.position, duration: 510, easing: Easing.linear, delay: 0,}) {
+    show({position = this.state.position, duration = this.props.animatedDuration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
+        = {position: this.state.position, duration: this.props.animatedDuration, easing: Easing.linear, delay: this.props.delay,}) {
 
         this._toastShowAnimation && this._toastShowAnimation.stop()
         this._toastHideAnimation && this._toastHideAnimation.stop()
         this._toastAnimationToggle && this.clearTimeout(this._toastAnimationToggle)
 
+        if(this.state.visible) {
+            this._setToastPosition(position)
+        }
+
         this.setState({
             position,
             visible: true,
         })
+
         this._toastShowAnimation = Animated.timing(
             this.state.opacity,
             {
@@ -127,8 +140,8 @@ class Toast extends Component {
         })
     }
 
-    hide({duration = 510, easing = Easing.linear, delay = 0, animationEnd,}
-        = {duration: 510, easing: Easing.linear, delay: 0,}) {
+    hide({duration = this.props.animatedDuration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
+        = {duration: this.props.animatedDuration, easing: Easing.linear, delay: this.props.delay,}) {
 
         this._toastShowAnimation && this._toastShowAnimation.stop()
         this._toastHideAnimation && this._toastHideAnimation.stop()
@@ -153,11 +166,19 @@ class Toast extends Component {
     }
 
     _onToastLayout = (e) => {
-        let { position, } = this.state
-        let { spacing, } = this.props
-        let left = (deviceWidth - e.nativeEvent.layout.width) / 2
-        let top = position == gravity.top ? spacing :
-                    position == gravity.center ? (deviceHeight - e.nativeEvent.layout.width) / 2 : null
+        this._toastWidth = e.nativeEvent.layout.width
+        this._toastHeight = e.nativeEvent.layout.height
+        this._setToastPosition()
+    }
+
+    _setToastPosition(position = this.state.position) {
+        if(!this._toastWidth || !this._toastHeight) {
+            return
+        }
+        let { spacing, marginTop, } = this.props
+        let left = (deviceWidth - this._toastWidth) / 2
+        let top = position == gravity.top ? spacing +  marginTop:
+            position == gravity.center ? (deviceHeight - this._toastHeight) / 2 : null
         let bottom = position == gravity.bottom ? spacing : null
         this._container.setNativeProps({
             style: {
