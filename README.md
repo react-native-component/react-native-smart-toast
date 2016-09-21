@@ -52,7 +52,7 @@ class ToastText extends Component {
 
     render() {
         return (
-            <View style={{ marginTop: 64, flex: 1, backgroundColor: '#fff',}}>
+            <View style={{ paddingTop: 64, flex: 1, backgroundColor: '#fff',}}>
                 <Button
                     onPress={this._showTopToast}
                     touchableType={Button.constants.touchableTypes.fadeContent}
@@ -189,13 +189,16 @@ export default TimerEnhance(ToastText)
 
 ## Props
 
-Prop        | Type   | Optional | Default          | Description
------------ | ------ | -------- | ---------------- | -----------
-style       | style  | Yes      |                  | see [react-native documents][3]
-textStyle   | style  | Yes      |                  | see [react-native documents][4]
-spacing     | number | Yes      | 30               | determine the top or bottom spacing when the position is on the top or bottom
-position    | style  | Yes      | constants.bottom | determine the position of toast
-duration    | style  | Yes      | 510              | determine the duration of toast animation
+Prop             | Type   | Optional | Default          | Description
+---------------- | ------ | -------- | ---------------- | -----------
+style            | style  | Yes      |                  | see [react-native documents][3]
+textStyle        | style  | Yes      |                  | see [react-native documents][4]
+spacing          | number | Yes      | 30               | determine the top or bottom spacing when the position is on the top or bottom
+position         | style  | Yes      | constants.bottom | determine the position of toast
+duration         | number | Yes      | 3000             | determine the residence duration after toast is shown
+animatedDuration | number | Yes      | 510              | determine the duration of toast animation
+delay            | number | Yes      | 0                | determine the delay of toast animation
+marginTop        | number | Yes      | 0                | determine the marginTop of the root container view, it is used when toast's position is constants.top
 
 ## Method
 
