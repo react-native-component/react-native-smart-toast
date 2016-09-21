@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/react-native-component/react-native-smart-toast/issues"
   },
-  "homepage": "https://github.com/react-native-component/react-native-smart-toast#readme"
+  "homepage": "https://github.com/react-native-component/react-native-smart-toast#readme",
   "dependencies": {
     "react-native-smart-timer-enhance": "^1.0.2"
   }
