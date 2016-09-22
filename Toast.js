@@ -1,6 +1,6 @@
 /*
  * A android like toast for android and ios, written in JS
- * https://github.com/react-native-component/react-native-smart-timer-enhance/
+ * https://github.com/react-native-component/react-native-smart-toast/
  * Released under the MIT license
  * Copyright (c) 2016 react-native-component <moonsunfall@aliyun.com>
  */
@@ -65,11 +65,11 @@ class Toast extends Component {
 
     constructor(props) {
         super(props)
-        // 初始状态
         this.state = {
             position: props.position,
             visible: false,
             opacity: new Animated.Value(0),
+            children: props.children,
         }
         this._toastWidth = null
         this._toastHeight = null
@@ -79,7 +79,7 @@ class Toast extends Component {
     }
 
     render() {
-        let children = React.Children.map(this.props.children, (child) => {
+        let children = React.Children.map(this.state.children, (child) => {
             if (!React.isValidElement(child)) {
                 return (
                     <Text
@@ -101,8 +101,8 @@ class Toast extends Component {
         )
     }
 
-    show({position = this.state.position, duration = this.props.animatedDuration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
-        = {position: this.state.position, duration: this.props.animatedDuration, easing: Easing.linear, delay: this.props.delay,}) {
+    show({children = this.state.children, position = this.state.position, duration = this.props.animatedDuration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
+        = {children: this.state.children, position: this.state.position, duration: this.props.animatedDuration, easing: Easing.linear, delay: this.props.delay,}) {
 
         this._toastShowAnimation && this._toastShowAnimation.stop()
         this._toastHideAnimation && this._toastHideAnimation.stop()
@@ -113,6 +113,7 @@ class Toast extends Component {
         }
 
         this.setState({
+            children,
             position,
             visible: true,
         })
