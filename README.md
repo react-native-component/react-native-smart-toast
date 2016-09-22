@@ -210,8 +210,9 @@ marginTop        | number | Yes      | 0                | determine the marginTo
 
 ## Method
 
-* show({position, duration, easing, delay, animationEnd,})
+* show({children, position, duration, easing, delay, animationEnd,})
 
+    * children: determine the children of toast
     * position: determine the position of toast. enum(gravity.bottom, gravity.top, gravity.center)
     * duration: determine the duration of animation
     * easing: determine the easing of animation
