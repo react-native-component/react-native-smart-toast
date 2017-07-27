@@ -7,8 +7,8 @@
 
 import React, {
     Component,
-    PropTypes,
 } from 'react'
+import PropTypes from 'prop-types'
 import {
     View,
     Text,
@@ -16,6 +16,7 @@ import {
     Animated,
     Easing,
     Dimensions,
+    ViewPropTypes,
 } from 'react-native'
 
 import TimerEnhance from 'react-native-smart-timer-enhance'
@@ -53,7 +54,7 @@ class Toast extends Component {
     }
 
     static propTypes = {
-        style: View.propTypes.style,
+        style: ViewPropTypes.style,
         textStyle: Text.propTypes.style,
         spacing: PropTypes.number,
         position: PropTypes.oneOf([gravity.top, gravity.bottom, gravity.center,]),
